@@ -88,4 +88,8 @@ public class Selection : MonoBehaviour
             }
         }
     }
+    public Dictionary<string, GameObject> getSelected()
+    {
+        return selections; 
+    }
 }
