@@ -14,7 +14,7 @@ public class Selection : MonoBehaviour
     Vector2 pivot = new Vector2();
 
 
-    Dictionary<string, GameObject> selections = new Dictionary<string, GameObject>();
+    static Dictionary<string, GameObject> selections = new Dictionary<string, GameObject>();
 
     void Update()
     {
@@ -88,7 +88,7 @@ public class Selection : MonoBehaviour
             }
         }
     }
-    public Dictionary<string, GameObject> getSelected()
+    public static Dictionary<string, GameObject> getSelected()
     {
         return selections; 
     }
