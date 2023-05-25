@@ -80,11 +80,15 @@ public class Selection : MonoBehaviour
             if ((corner1.x < obj.transform.position.x && obj.transform.position.x < corner2.x) && (corner1.y < obj.transform.position.y && obj.transform.position.y < corner2.y))
             {
                 if (!selections.ContainsKey(obj.name))
-                { selections.Add(obj.name, obj); }
+                { 
+                    selections.Add(obj.name, obj);
+                    obj.GetComponent<SpriteRenderer>().color = Color.red;
+                }
             }
             else
             {
                 selections.Remove(obj.name);
+                obj.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
     }

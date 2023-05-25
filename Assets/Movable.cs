@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class Movable : MonoBehaviour
 {
-    GameObject obj;
-    Stack<Vector2> moveQueue = new();
+    Rigidbody2D body;
+    List<Vector2> moveQueue = new();
+    Vector2 target;
     // Start is called before the first frame update
     /* TODO FOR MOVE SCRIPT:
      * 
-     * [] Make a working move queue
-     * [] Make selected objects move
+     * [x] Make a working move queue
+     * [x] Make selected objects move
      * [] Make selected objects not run into eachother while moving
      * 
      * 
@@ -22,22 +23,48 @@ public class Movable : MonoBehaviour
      * 
      * 
      */
-    void Start()
+    private void Awake()
     {
-        
+        body = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        move();
+    }
+
+    public void AddToMoveQueue(Vector2 pos)
+    {
+        moveQueue.Add(pos);
+    }
+
+    public void MoveTo(Vector2 pos)
+    {
+        moveQueue.Clear();
+        moveQueue.Add(pos);
     }
 
     bool move()
     {
         if (moveQueue.Count == 0)
         {
+            
             return true;
+        }
+
+
+        if (Vector2.Distance(moveQueue[0], body.position) < .1)
+        {
+            body.velocity = Vector2.zero;
+            moveQueue.RemoveAt(0);
+            
+        }
+        else
+        {
+            Vector2 delta = moveQueue[0] - body.position;
+            delta.Normalize();
+            body.velocity = delta * 5;
         }
 
         return false;

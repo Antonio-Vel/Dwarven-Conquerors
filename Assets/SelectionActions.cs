@@ -5,6 +5,7 @@ using UnityEngine;
 public class SelectionActions : MonoBehaviour
 {
     public Dictionary<string, GameObject> selected;
+    Vector2 mousepos;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,29 @@ public class SelectionActions : MonoBehaviour
         if (selected.Count == 0)
         { return; }
 
+        mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetKeyDown("p"))
-        { print("hi"); }
+        {
+            foreach (KeyValuePair<string, GameObject> pair in selected)
+            {
+                print("howdy");
+
+                if (pair.Value.TryGetComponent<Movable>(out Movable component))
+                {
+                    print($"{pair.Key} is moving to {Camera.main.ScreenToWorldPoint(Input.mousePosition)}!");
+                    if (Input.GetKey("w"))
+                    {
+                        component.AddToMoveQueue(mousepos);
+                    }
+                    else
+                    {
+                        component.MoveTo(mousepos);
+                    }
+                }
+                int rand = Random.Range(0, 360);
+
+                mousepos = new Vector2(mousepos.x + .5 * Mathf.Cos(rand), mousepos.y + .5 * Mathf.)
+            }
+        }
     }
 }
