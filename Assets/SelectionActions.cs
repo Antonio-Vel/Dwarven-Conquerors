@@ -41,7 +41,7 @@ public class SelectionActions : MonoBehaviour
                 }
                 int rand = Random.Range(0, 360);
 
-                mousepos = new Vector2(mousepos.x + .5 * Mathf.Cos(rand), mousepos.y + .5 * Mathf.)
+                mousepos = new Vector2((float)(mousepos.x + .5 * Mathf.Cos(rand)), (float)(mousepos.y + .5 * Mathf.Sin(rand)));
             }
         }
     }

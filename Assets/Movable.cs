@@ -13,7 +13,8 @@ public class Movable : MonoBehaviour
      * 
      * [x] Make a working move queue
      * [x] Make selected objects move
-     * [] Make selected objects not run into eachother while moving
+     * [x] Make selected objects not run into eachother while moving
+     * [] **Formations**
      * 
      * 
      * FOR LATER
@@ -26,12 +27,13 @@ public class Movable : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        target = body.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        move();
+        Move();
     }
 
     public void AddToMoveQueue(Vector2 pos)
@@ -45,18 +47,28 @@ public class Movable : MonoBehaviour
         moveQueue.Add(pos);
     }
 
-    bool move()
+    bool Move()
     {
         if (moveQueue.Count == 0)
         {
-            
-            return true;
+            if (Vector2.Distance(target, body.position) > .1)
+            {
+                body.velocity = (target - body.position) * 5;
+                return false;
+            }
+            else
+            {
+                body.velocity = Vector2.zero;
+                return true;
+            }
+
         }
 
 
         if (Vector2.Distance(moveQueue[0], body.position) < .1)
         {
-            body.velocity = Vector2.zero;
+            if (moveQueue.Count == 1)
+                target = moveQueue[0]; 
             moveQueue.RemoveAt(0);
             
         }
