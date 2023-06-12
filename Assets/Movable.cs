@@ -14,7 +14,7 @@ public class Movable : MonoBehaviour
      * [x] Make a working move queue
      * [x] Make selected objects move
      * [x] Make selected objects not run into eachother while moving
-     * [] **Formations**
+     * [x] **Formations**
      * 
      * 
      * FOR LATER
