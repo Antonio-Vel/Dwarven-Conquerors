@@ -65,8 +65,9 @@ public class Movable : MonoBehaviour
         }
 
 
-        if (Vector2.Distance(moveQueue[0], body.position) < .1)
+        if (Vector2.Distance(moveQueue[0], body.position) < .05)
         {
+            body.position = moveQueue[0];
             if (moveQueue.Count == 1)
                 target = moveQueue[0]; 
             moveQueue.RemoveAt(0);
