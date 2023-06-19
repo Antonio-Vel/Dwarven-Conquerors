@@ -55,7 +55,7 @@ public class SelectionActions : MonoBehaviour
         }
         for (int i = 0; i < count % rows; i++)
         {
-            rowsizes[i]++;
+            rowsizes[rowsizes.Length - 1 - i]++;
         }
         Vector2[][] rowsPos = new Vector2[rowsizes.Length][];
         Vector2 displacement = new Vector2(Mathf.Sin(rotation), Mathf.Cos(rotation)) * SPACING;
@@ -91,7 +91,7 @@ public class SelectionActions : MonoBehaviour
                 }
                 num++;
             }
-            origin -= normDirection * VERT;
+            origin += normDirection * VERT;
         }
 
         int z = 0;
@@ -147,6 +147,11 @@ public class SelectionActions : MonoBehaviour
         delta.Normalize();
         Vector2[] formation = MakeFormation(movables.Count, rows, rotation, origin, delta);
         //Send out formation details on mouseup
+        for (int i = 0; i < distances.Count; i++)
+        {
+            movables.TryGetValue(distances[i], out Movable m);
+            m.MoveSelection(formation[i]);
+        }
         if (Input.GetKeyUp("p"))
         {
             for (int i = 0; i < distances.Count; i++)
@@ -160,10 +165,10 @@ public class SelectionActions : MonoBehaviour
                 {
                     m.MoveTo(formation[i]);
                 }
-
+                m.DisableSelection();
                 //print($"Ball {i} to {formation[i]}");
             }
-
+            
             movables.Clear();
             distances.Clear();
         }

@@ -8,6 +8,7 @@ public class Movable : MonoBehaviour
     Rigidbody2D body;
     List<Vector2> moveQueue = new();
     Vector2 target;
+    GameObject selectionClone;
     // Start is called before the first frame update
     /* TODO FOR MOVE SCRIPT:
      * 
@@ -28,6 +29,13 @@ public class Movable : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         target = body.position;
+
+        selectionClone = new GameObject($"{gameObject.name} Ghost");
+        SpriteRenderer sp = selectionClone.AddComponent<SpriteRenderer>();
+        sp.sprite = GetComponent<SpriteRenderer>().sprite;
+        sp.color = new Color(1, 1, 1, .25F);
+        selectionClone.transform.localScale = transform.localScale;
+        selectionClone.SetActive(false);
     }
 
     // Update is called once per frame
@@ -58,6 +66,7 @@ public class Movable : MonoBehaviour
             }
             else
             {
+                body.position = target;
                 body.velocity = Vector2.zero;
                 return true;
             }
@@ -81,5 +90,17 @@ public class Movable : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void MoveSelection(Vector2 pos)
+    {
+        if(!selectionClone.activeSelf)
+            selectionClone.SetActive(true);
+        selectionClone.transform.position = pos;
+    }
+
+    public void DisableSelection()
+    {
+        selectionClone.SetActive(false);
     }
 }
