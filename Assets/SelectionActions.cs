@@ -48,6 +48,8 @@ public class SelectionActions : MonoBehaviour
     //}
     private Vector2[] MakeFormation(int count, int rows, float rotation, Vector2 origin, Vector2 normDirection)
     {
+        if (count < rows)
+            rows = count;
         int[] rowsizes = new int[rows];
         for (int i = 0; i < rows; i++)
         {
@@ -58,7 +60,7 @@ public class SelectionActions : MonoBehaviour
             rowsizes[rowsizes.Length - 1 - i]++;
         }
         Vector2[][] rowsPos = new Vector2[rowsizes.Length][];
-        Vector2 displacement = new Vector2(Mathf.Sin(rotation), Mathf.Cos(rotation)) * SPACING;
+        Vector2 displacement = new Vector2(Mathf.Cos(rotation), Mathf.Sin(rotation)) * SPACING;
         int num = 0;
         for (int i = 0; i < rows; i++)
         {
@@ -141,7 +143,7 @@ public class SelectionActions : MonoBehaviour
             movables.TryGetValue(distances[0], out Movable m);
             delta = mousepos - m.GetComponent<Transform>().position;
         }
-        rotation = Mathf.Atan2(delta.y,delta.x) ;
+        rotation = Mathf.Atan2(delta.y,delta.x) + Mathf.PI/2;
         //Create a formation of positions with rotation in mind
         int rows = (int)(Vector3.Distance(origin, mousepos) / VERT) + 1;
         delta.Normalize();

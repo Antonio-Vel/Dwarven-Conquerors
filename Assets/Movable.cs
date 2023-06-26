@@ -9,6 +9,10 @@ public class Movable : MonoBehaviour
     List<Vector2> moveQueue = new();
     Vector2 target;
     GameObject selectionClone;
+    Collider2D col;
+    float stuckTime = 0;
+    const float TIMETILLSTUCK = .5F;
+    Vector2 stuckVector = Vector2.zero;
     // Start is called before the first frame update
     /* TODO FOR MOVE SCRIPT:
      * 
@@ -36,6 +40,7 @@ public class Movable : MonoBehaviour
         sp.color = new Color(1, 1, 1, .25F);
         selectionClone.transform.localScale = transform.localScale;
         selectionClone.SetActive(false);
+        col = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
@@ -84,9 +89,23 @@ public class Movable : MonoBehaviour
         }
         else
         {
+            if (col.IsTouchingLayers(LayerMask.GetMask("Units")))
+            {
+                stuckTime += Time.deltaTime;
+                if (stuckTime > TIMETILLSTUCK)
+                {
+                    stuckTime = 0;
+                    stuckVector = Random.insideUnitCircle;
+                }
+            }
+            else
+            {
+                stuckVector = Vector2.zero;
+                stuckTime = 0;
+            }
             Vector2 delta = moveQueue[0] - body.position;
             delta.Normalize();
-            body.velocity = delta * 5;
+            body.velocity = delta * 5 + stuckVector;
         }
 
         return false;
