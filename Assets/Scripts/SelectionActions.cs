@@ -8,7 +8,6 @@ public class SelectionActions : MonoBehaviour
     public Dictionary<string, GameObject> selected;
     Vector3 mousepos;
     Vector3 origin;
-    bool LoR = false;
     const float SPACING = .5F, VERT = .5F;
     List<float> distances = new();
     Dictionary<float, Movable> movables = new();
