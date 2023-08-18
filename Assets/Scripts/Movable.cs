@@ -13,6 +13,7 @@ public class Movable : MonoBehaviour
     float stuckTime = 0;
     const float TIMETILLSTUCK = .5F;
     Vector2 stuckVector = Vector2.zero;
+    Unit unit;
     // Start is called before the first frame update
     /* TODO FOR MOVE SCRIPT:
      * 
@@ -33,7 +34,7 @@ public class Movable : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         target = body.position;
-
+        unit = GetComponent<Unit>();
         selectionClone = new GameObject($"{gameObject.name} Ghost");
         SpriteRenderer sp = selectionClone.AddComponent<SpriteRenderer>();
         sp.sprite = GetComponent<SpriteRenderer>().sprite;
@@ -66,7 +67,7 @@ public class Movable : MonoBehaviour
         {
             if (Vector2.Distance(target, body.position) > .1)
             {
-                body.velocity = (target - body.position) * 5;
+                body.velocity = (target - body.position) * unit.movespeed;
                 return false;
             }
             else
@@ -105,7 +106,7 @@ public class Movable : MonoBehaviour
             }
             Vector2 delta = moveQueue[0] - body.position;
             delta.Normalize();
-            body.velocity = delta * 5 + stuckVector;
+            body.velocity = delta * unit.movespeed + stuckVector;
         }
 
         return false;

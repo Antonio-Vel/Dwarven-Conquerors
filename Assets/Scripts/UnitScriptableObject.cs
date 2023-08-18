@@ -9,5 +9,6 @@ public class UnitScriptableObject : ScriptableObject
         public float attackSpeed;
         public float attackRange;
         public string description;
+        public int id;
         public GameObject prefab;
 }
