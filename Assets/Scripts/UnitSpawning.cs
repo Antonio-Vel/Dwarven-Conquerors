@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,8 +25,28 @@ public class Unit : MonoBehaviour
 	}
 
 
-	int health;
-	float movespeed;
+	int health
+	{
+		set
+		{
+			health = value;
+			print("Damaged");
+			if (health == 0)
+				this.Die();
+
+		}
+		get
+		{
+			return health;
+		}
+	}
+
+    private void Die()
+    {
+		Destroy(unitObject);
+    }
+
+    public float movespeed;
 	float attackSpeed;
 	float attackRange;
 	string description;
